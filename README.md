@@ -35,13 +35,7 @@ Ensure you have the following prerequisites installed before setting up and runn
     git clone https://github.com/Adriano-Santtos/poc-task-manager-spring-kotlin.git
     ```
 
-2. Build the Docker image inside the project directory:
-
-    ```bash
-    docker build -t your-api-backend .
-    ```
-
-3. Run the Docker container:
+3. Run the Docker container inside the project directory:
 
     ```bash
     docker compose up -d
@@ -57,5 +51,4 @@ Ensure you have the following prerequisites installed before setting up and runn
 
 
 After the application runs locally, access the swagger's endpoint to view details of available endpoints and your functionalities:
-
-Your API uses token-based authentication. Include a valid access token in the `Authorization` header for each request.
+<http://localhost:8080/swagger-ui/index.html>
