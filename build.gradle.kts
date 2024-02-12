@@ -1,14 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val springBootVersion = "3.2.1"
+    val flywayVersion = "10.7.2"
     val kotlinVersion = "1.9.21"
     val ktlintVersion = "10.0.0"
+    val springBootVersion = "3.2.1"
     val springDependencyManagementVersion = "1.1.4"
 
-    id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
+    id("org.flywaydb.flyway") version flywayVersion
     id("org.jlleitschuh.gradle.ktlint") version ktlintVersion
+    id("org.springframework.boot") version springBootVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
@@ -34,6 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.flywaydb:flyway-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocOpenAPiVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
 

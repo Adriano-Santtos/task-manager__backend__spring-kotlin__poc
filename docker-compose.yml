@@ -10,3 +10,18 @@ services:
       POSTGRES_PASSWORD: local
     ports:
       - "5432:5432"
+
+
+  flyway:
+    image: flyway/flyway
+    command: [ "-url=jdbc:postgresql://postgres:5432/task-manager-poc", "-user=local", "-password=local", "migrate" ]
+    volumes:
+      - ./flyway/sql:/flyway/sql
+    depends_on:
+      - postgres
+    networks:
+      - task-manager-poc
+
+networks:
+  task-manager-poc:
+    driver: bridge
