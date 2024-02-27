@@ -26,8 +26,8 @@ class CreateTaskControllerTest : IntegrationTests() {
                 .accept(APPLICATION_JSON)
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.title", equalTo("Teste")))
-            .andExpect(jsonPath("$.description", equalTo("Teste")))
+            .andExpect(jsonPath("$.title", equalTo(request.title)))
+            .andExpect(jsonPath("$.description", equalTo(request.description)))
 
         val entity = repository.findAll().first()
 
