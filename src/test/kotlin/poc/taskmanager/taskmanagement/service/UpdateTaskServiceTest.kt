@@ -22,12 +22,16 @@ class UpdateTaskServiceTest : UnitTests() {
     fun `Should update existing task with non-null properties`() {
         // Arrange
         val taskId = 1L
-        val updateTaskDTO = UpdateTaskDTO(title = "New Title", description = "New Description")
+        val updateTaskDTO = UpdateTaskDTO(
+            title = "New Title",
+            description = "New Description",
+            status = TODO.name,
+        )
         val existingEntity = TaskEntity(
             id = taskId,
             title = "Old Title",
             description = "Old Description",
-            status = "TODO"
+            status = TODO.name
         )
 
         every { repository.getReferenceById(taskId) } returns existingEntity
@@ -42,19 +46,23 @@ class UpdateTaskServiceTest : UnitTests() {
 
         assertEquals("New Title", existingEntity.title)
         assertEquals("New Description", existingEntity.description)
-        assertEquals("TODO", existingEntity.status)
+        assertEquals(TODO.name, existingEntity.status)
     }
 
     @Test
     fun `Should update existing task with not null new properties`() {
         // Arrange
         val taskId = 1L
-        val updateTaskDTO = UpdateTaskDTO(title = "New Title", description = null)
+        val updateTaskDTO = UpdateTaskDTO(
+            title = "New Title",
+            description = null,
+            status = TODO.name,
+        )
         val existingEntity = TaskEntity(
             id = taskId,
             title = "Old Title",
             description = "Old Description",
-            status = "TODO"
+            status = TODO.name
         )
 
         every { repository.getReferenceById(taskId) } returns existingEntity
@@ -69,6 +77,60 @@ class UpdateTaskServiceTest : UnitTests() {
 
         assertEquals("New Title", existingEntity.title)
         assertEquals("Old Description", existingEntity.description)
-        assertEquals("TODO", existingEntity.status)
+        assertEquals(TODO.name, existingEntity.status)
+    }
+
+    @Test
+    fun `Should update status with success`() {
+        val taskId = 1L
+        val updateTaskDTO = UpdateTaskDTO(
+            title = "New Title",
+            description = null,
+            status = COMPLETED.name,
+        )
+        val existingEntity = TaskEntity(
+            id = taskId,
+            title = "Old Title",
+            description = "Old Description",
+            status = TODO.name
+        )
+
+        every { repository.getReferenceById(taskId) } returns existingEntity
+        every { repository.save(any()) } returns existingEntity
+
+        // Act
+        service.update(taskId, updateTaskDTO)
+
+        // Assert
+        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        verify(exactly = 1) { repository.save(existingEntity) }
+
+        assertEquals("New Title", existingEntity.title)
+        assertEquals("Old Description", existingEntity.description)
+        assertEquals(COMPLETED.name, existingEntity.status)
+    }
+
+    @Test
+    fun `Should throw an exception when status not allowed to be updated`() {
+        val taskId = 1L
+        val notAllowedStatus = "TODOS"
+        val updateTaskDTO = UpdateTaskDTO(
+            title = "New Title",
+            description = null,
+            status = notAllowedStatus,
+        )
+        val existingEntity = TaskEntity(
+            id = taskId,
+            title = "Old Title",
+            description = "Old Description",
+            status = TODO.name
+        )
+
+        every { repository.getReferenceById(taskId) } returns existingEntity
+
+        // Assert
+        assertThrows<StatusNotAllowedException> { service.update(taskId, updateTaskDTO) }
+        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        verify(exactly = 0) { repository.save(existingEntity) }
     }
 }

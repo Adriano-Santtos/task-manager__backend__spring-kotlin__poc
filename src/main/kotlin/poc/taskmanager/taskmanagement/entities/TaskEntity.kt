@@ -23,7 +23,7 @@ data class TaskEntity(
     var description: String?,
 
     @Column(name = "IND_STATUS")
-    val status: String,
+    var status: String,
 
     @CreationTimestamp
     @Column(name = "DAT_CREATE")
