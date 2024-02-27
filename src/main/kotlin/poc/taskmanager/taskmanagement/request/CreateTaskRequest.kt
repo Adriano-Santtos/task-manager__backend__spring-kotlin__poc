@@ -1,4 +1,4 @@
-package poc.taskmanager.taskmanagement.createtask
+package poc.taskmanager.taskmanagement.request
 
 data class CreateTaskRequest(
     val title: String,
