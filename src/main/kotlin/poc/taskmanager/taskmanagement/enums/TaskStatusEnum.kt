@@ -1,4 +1,4 @@
-package poc.taskmanager.taskmanagement.createtask
+package poc.taskmanager.taskmanagement.enums
 
 enum class TaskStatusEnum {
     TODO, COMPLETED, DELETED

@@ -1,4 +1,4 @@
-package poc.taskmanager.taskmanagement.createtask.dto
+package poc.taskmanager.taskmanagement.dto
 
 import org.apache.commons.lang3.StringUtils.EMPTY
 

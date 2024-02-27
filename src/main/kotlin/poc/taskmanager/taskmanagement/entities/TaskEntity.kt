@@ -1,4 +1,4 @@
-package poc.taskmanager.taskmanagement.common.entities
+package poc.taskmanager.taskmanagement.entities
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -17,10 +17,10 @@ data class TaskEntity(
     val id: Long? = null,
 
     @Column(name = "DES_TITLE")
-    val title: String,
+    var title: String,
 
     @Column(name = "DES_DESCRIPTION")
-    val description: String?,
+    var description: String?,
 
     @Column(name = "IND_STATUS")
     val status: String,

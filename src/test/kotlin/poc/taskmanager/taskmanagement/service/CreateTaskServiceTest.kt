@@ -1,4 +1,4 @@
-package poc.taskmanager.taskmanagement.createtask.service
+package poc.taskmanager.taskmanagement.service
 
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -6,9 +6,9 @@ import io.mockk.impl.annotations.MockK
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import poc.taskmanager.UnitTests
-import poc.taskmanager.taskmanagement.common.repository.TaskRepository
-import poc.taskmanager.taskmanagement.createtask.dto.CreateTaskDTO
-import poc.taskmanager.taskmanagement.createtask.toEntity
+import poc.taskmanager.taskmanagement.dto.CreateTaskDTO
+import poc.taskmanager.taskmanagement.mapper.toEntity
+import poc.taskmanager.taskmanagement.repository.TaskRepository
 import java.util.UUID
 
 class CreateTaskServiceTest : UnitTests() {
