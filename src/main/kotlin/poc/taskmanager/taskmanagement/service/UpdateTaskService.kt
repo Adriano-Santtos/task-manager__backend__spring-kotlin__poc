@@ -36,4 +36,13 @@ class UpdateTaskService(private val repository: TaskRepository) {
                 targetBean.setPropertyValue(propertyName, sourceValue)
             }
     }
+
+    private fun isStatusAvailableToBeUpdated(status: String?): Boolean =
+        status
+            ?.let {
+                runCatching { TaskStatusEnum.valueOf(it) }
+                    .onFailure { throw StatusNotAllowedException() }
+                    .isSuccess
+            }
+            ?: false
 }
