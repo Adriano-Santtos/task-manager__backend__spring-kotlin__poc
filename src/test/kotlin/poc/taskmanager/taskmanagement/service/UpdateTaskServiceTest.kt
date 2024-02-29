@@ -6,9 +6,13 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import poc.taskmanager.UnitTests
 import poc.taskmanager.taskmanagement.dto.UpdateTaskDTO
 import poc.taskmanager.taskmanagement.entities.TaskEntity
+import poc.taskmanager.taskmanagement.enums.TaskStatusEnum.COMPLETED
+import poc.taskmanager.taskmanagement.enums.TaskStatusEnum.TODO
+import poc.taskmanager.taskmanagement.exceptions.StatusNotAllowedException
 import poc.taskmanager.taskmanagement.repository.TaskRepository
 
 class UpdateTaskServiceTest : UnitTests() {
