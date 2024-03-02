@@ -6,10 +6,9 @@ import io.mockk.impl.annotations.MockK
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import poc.taskmanager.UnitTests
-import poc.taskmanager.taskmanagement.dto.CreateTaskDTO
+import poc.taskmanager.taskmanagement.builder.createTaskDTOBuilder
 import poc.taskmanager.taskmanagement.mapper.toEntity
 import poc.taskmanager.taskmanagement.repository.TaskRepository
-import java.util.UUID
 
 class CreateTaskServiceTest : UnitTests() {
 
@@ -22,10 +21,7 @@ class CreateTaskServiceTest : UnitTests() {
     @Test
     fun `should create a new task with success`() {
         // Arrange
-        val dto = CreateTaskDTO(
-            title = UUID.randomUUID().toString(),
-            description = UUID.randomUUID().toString(),
-        )
+        val dto = createTaskDTOBuilder()
 
         val entity = dto.toEntity(description = dto.description!!)
 
@@ -42,9 +38,8 @@ class CreateTaskServiceTest : UnitTests() {
     @Test
     fun `should save description as EMPTY_VALUE when is null is informed`() {
         // Arrange
-        val dto = CreateTaskDTO(
-            title = UUID.randomUUID().toString(),
-            description = null,
+        val dto = createTaskDTOBuilder(
+            description = null
         )
 
         val entity = dto.toEntity(description = EMPTY_VALUE)

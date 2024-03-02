@@ -6,20 +6,18 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import poc.taskmanager.taskmanagement.request.UpdateTaskRequest
 import poc.taskmanager.taskmanagement.response.TaskResponse
 
-interface UpdateTaskAPI {
+interface DeleteTaskAPI {
 
-    @Operation(summary = "Update a task")
+    @Operation(summary = "Delete a task")
     @ApiResponses(
         value = [
             ApiResponse(
                 responseCode = "200",
-                description = "Task updated with success",
+                description = "Task deleted with success",
                 content = [
                     (
                         Content(
@@ -43,6 +41,6 @@ interface UpdateTaskAPI {
             ),
         ]
     )
-    @PatchMapping("/tasks/{id}")
-    fun update(@PathVariable id: Long, @RequestBody request: UpdateTaskRequest): TaskResponse
+    @DeleteMapping("/tasks/{id}")
+    fun delete(@PathVariable id: Long)
 }

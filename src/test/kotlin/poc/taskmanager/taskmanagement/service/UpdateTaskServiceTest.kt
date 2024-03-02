@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import poc.taskmanager.UnitTests
+import poc.taskmanager.taskmanagement.builder.taskEntityBuilder
 import poc.taskmanager.taskmanagement.dto.UpdateTaskDTO
-import poc.taskmanager.taskmanagement.entities.TaskEntity
 import poc.taskmanager.taskmanagement.enums.TaskStatusEnum.COMPLETED
 import poc.taskmanager.taskmanagement.enums.TaskStatusEnum.TODO
 import poc.taskmanager.taskmanagement.exceptions.StatusNotAllowedException
@@ -23,29 +23,23 @@ class UpdateTaskServiceTest : UnitTests() {
     lateinit var service: UpdateTaskService
 
     @Test
-    fun `Should update existing task with non-null properties`() {
+    fun `Should update existing task with non-null propereties`() {
         // Arrange
-        val taskId = 1L
         val updateTaskDTO = UpdateTaskDTO(
             title = "New Title",
             description = "New Description",
             status = TODO.name,
         )
-        val existingEntity = TaskEntity(
-            id = taskId,
-            title = "Old Title",
-            description = "Old Description",
-            status = TODO.name
-        )
+        val existingEntity = taskEntityBuilder()
 
-        every { repository.getReferenceById(taskId) } returns existingEntity
+        every { repository.getReferenceById(existingEntity.id!!) } returns existingEntity
         every { repository.save(any()) } returns existingEntity
 
         // Act
-        service.update(taskId, updateTaskDTO)
+        service.update(existingEntity.id!!, updateTaskDTO)
 
         // Assert
-        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        verify(exactly = 1) { repository.getReferenceById(existingEntity.id!!) }
         verify(exactly = 1) { repository.save(existingEntity) }
 
         assertEquals("New Title", existingEntity.title)
@@ -56,27 +50,21 @@ class UpdateTaskServiceTest : UnitTests() {
     @Test
     fun `Should update existing task with not null new properties`() {
         // Arrange
-        val taskId = 1L
         val updateTaskDTO = UpdateTaskDTO(
             title = "New Title",
             description = null,
             status = TODO.name,
         )
-        val existingEntity = TaskEntity(
-            id = taskId,
-            title = "Old Title",
-            description = "Old Description",
-            status = TODO.name
-        )
+        val existingEntity = taskEntityBuilder()
 
-        every { repository.getReferenceById(taskId) } returns existingEntity
+        every { repository.getReferenceById(existingEntity.id!!) } returns existingEntity
         every { repository.save(any()) } returns existingEntity
 
         // Act
-        service.update(taskId, updateTaskDTO)
+        service.update(existingEntity.id!!, updateTaskDTO)
 
         // Assert
-        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        verify(exactly = 1) { repository.getReferenceById(existingEntity.id!!) }
         verify(exactly = 1) { repository.save(existingEntity) }
 
         assertEquals("New Title", existingEntity.title)
@@ -86,27 +74,21 @@ class UpdateTaskServiceTest : UnitTests() {
 
     @Test
     fun `Should update status with success`() {
-        val taskId = 1L
         val updateTaskDTO = UpdateTaskDTO(
             title = "New Title",
             description = null,
             status = COMPLETED.name,
         )
-        val existingEntity = TaskEntity(
-            id = taskId,
-            title = "Old Title",
-            description = "Old Description",
-            status = TODO.name
-        )
+        val existingEntity = taskEntityBuilder()
 
-        every { repository.getReferenceById(taskId) } returns existingEntity
+        every { repository.getReferenceById(existingEntity.id!!) } returns existingEntity
         every { repository.save(any()) } returns existingEntity
 
         // Act
-        service.update(taskId, updateTaskDTO)
+        service.update(existingEntity.id!!, updateTaskDTO)
 
         // Assert
-        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        verify(exactly = 1) { repository.getReferenceById(existingEntity.id!!) }
         verify(exactly = 1) { repository.save(existingEntity) }
 
         assertEquals("New Title", existingEntity.title)
@@ -116,25 +98,24 @@ class UpdateTaskServiceTest : UnitTests() {
 
     @Test
     fun `Should throw an exception when status not allowed to be updated`() {
-        val taskId = 1L
         val notAllowedStatus = "TODOS"
         val updateTaskDTO = UpdateTaskDTO(
             title = "New Title",
             description = null,
             status = notAllowedStatus,
         )
-        val existingEntity = TaskEntity(
-            id = taskId,
-            title = "Old Title",
-            description = "Old Description",
-            status = TODO.name
-        )
+        val existingEntity = taskEntityBuilder()
 
-        every { repository.getReferenceById(taskId) } returns existingEntity
+        every { repository.getReferenceById(existingEntity.id!!) } returns existingEntity
 
         // Assert
-        assertThrows<StatusNotAllowedException> { service.update(taskId, updateTaskDTO) }
-        verify(exactly = 1) { repository.getReferenceById(taskId) }
+        assertThrows<StatusNotAllowedException> {
+            service.update(
+                existingEntity.id!!,
+                updateTaskDTO
+            )
+        }
+        verify(exactly = 1) { repository.getReferenceById(existingEntity.id!!) }
         verify(exactly = 0) { repository.save(existingEntity) }
     }
 }
