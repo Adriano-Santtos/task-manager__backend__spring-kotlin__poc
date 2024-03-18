@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val flywayVersion = "10.7.2"
+    val flywayVersion = "10.10.0"
     val kotlinVersion = "1.9.21"
     val ktlintVersion = "10.0.0"
     val springBootVersion = "3.2.1"
