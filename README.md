@@ -52,4 +52,3 @@ Ensure you have the following prerequisites installed before setting up and runn
 
 After the application runs locally, access the swagger's endpoint to view details of available endpoints and your functionalities:
 <http://localhost:8080/swagger-ui/index.html>
-# exploring-kotlin-coroutines__backend__spring-kotlin__poc
